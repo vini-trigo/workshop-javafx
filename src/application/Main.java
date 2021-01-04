@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	
-	private static Scene mainSecne;
+	public static Scene mainSecne;
 	
 	@Override
 	public void start(Stage primaryStage) {
