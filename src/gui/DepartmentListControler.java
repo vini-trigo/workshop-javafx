@@ -1,18 +1,27 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.util.Alerts;
+import gui.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Department;
 import model.services.DepartmentService;
@@ -34,8 +43,9 @@ public class DepartmentListControler implements Initializable{
 	private Button btnew;
 	
 	@FXML
-	public void onBtNewAction() {
-		System.out.println("Ontio");
+	public void onBtNewAction(ActionEvent event) {
+		Stage pt = Utils.currentStage(event);
+		CreateDialogForm("/gui/DepartmentForm.fxml", pt);;
 	}
 	
 	private ObservableList<Department> obslist;
@@ -63,6 +73,24 @@ public class DepartmentListControler implements Initializable{
 		List<Department> list = service.findAll();
 		obslist = FXCollections.observableArrayList(list);
 		tableview.setItems(obslist);
+	}
+	
+	private void CreateDialogForm(String name, Stage pt) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(name));
+			Pane pane = loader.load();
+			
+			Stage dialog = new Stage();
+			dialog.setTitle("Enter department data");
+			dialog.setScene(new Scene(pane));
+			dialog.setResizable(false);
+			dialog.initOwner(pt);
+			dialog.initModality(Modality.WINDOW_MODAL);
+			dialog.showAndWait();
+			
+		}catch(IOException s) {
+			Alerts.showAlert("IO Execpition", "Error loading view", s.getMessage(), AlertType.ERROR);
+		}
 	}
 	
 }
