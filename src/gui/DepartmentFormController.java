@@ -1,19 +1,22 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import db.DbException;
+import gui.listener.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Contraints;
 import gui.util.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import model.entities.Department;
 import model.services.DepartmentService;
 
@@ -23,6 +26,8 @@ public class DepartmentFormController implements Initializable {
 
 	private DepartmentService service;
 
+	private List<DataChangeListener> datacl = new ArrayList<>();
+	
 	@FXML
 	private TextField txtid;
 
@@ -46,6 +51,12 @@ public class DepartmentFormController implements Initializable {
 		this.service = service;
 	}
 
+	public void SubscribeData(DataChangeListener listener) {
+		datacl.add(listener);
+	}
+	
+	
+	
 	@FXML
 	public void onBtSave(ActionEvent event) {
 		if (depart == null) {
@@ -57,11 +68,19 @@ public class DepartmentFormController implements Initializable {
 		try {
 			depart = getFormD();
 			service.SaveOrupadte(depart);
+			notifyData();
 			Utils.currentStage(event).close();
+			
 		} catch (DbException a) {
 			Alerts.showAlert("Error save objet", null, a.getMessage(), AlertType.ERROR);
 		}
 
+	}
+
+	private void notifyData() {
+		for(DataChangeListener listener : datacl){
+			listener.onDataChange();
+		}
 	}
 
 	private Department getFormD() {
