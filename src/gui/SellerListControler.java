@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -24,6 +27,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Seller;
 import model.services.SellerService;
@@ -103,27 +108,27 @@ public class SellerListControler implements Initializable, DataChangeListener {
 	}
 
 	private void CreateDialogForm(Seller obj, String name, Stage pt) {
-//		try {
-//			FXMLLoader loader = new FXMLLoader(getClass().getResource(name));
-//			Pane pane = loader.load();
-//
-//			SellerFormController contrel = loader.getController();
-//			contrel.setSeller(obj);
-//			contrel.setSellerService(new SellerService());
-//			contrel.SubscribeData(this);
-//			contrel.updateFormData();
-//
-//			Stage dialog = new Stage();
-//			dialog.setTitle("Enter department data");
-//			dialog.setScene(new Scene(pane));
-//			dialog.setResizable(false);
-//			dialog.initOwner(pt);
-//			dialog.initModality(Modality.WINDOW_MODAL);
-//			dialog.showAndWait();
-//
-//		} catch (IOException s) {
-//			Alerts.showAlert("IO Execpition", "Error loading view", s.getMessage(), AlertType.ERROR);
-//		}
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(name));
+			Pane pane = loader.load();
+
+			SellerFormController contrel = loader.getController();
+			contrel.setSeller(obj);
+			contrel.setSellerService(new SellerService());
+			contrel.SubscribeData(this);
+			contrel.updateFormData();
+
+			Stage dialog = new Stage();
+			dialog.setTitle("Enter Seller data");
+			dialog.setScene(new Scene(pane));
+			dialog.setResizable(false);
+			dialog.initOwner(pt);
+			dialog.initModality(Modality.WINDOW_MODAL);
+			dialog.showAndWait();
+
+		} catch (IOException s) {
+			Alerts.showAlert("IO Execpition", "Error loading view", s.getMessage(), AlertType.ERROR);
+		}
 	}
 
 	@Override
