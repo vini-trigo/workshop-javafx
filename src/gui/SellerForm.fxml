@@ -33,7 +33,9 @@
             <Label text="Name" GridPane.rowIndex="1" />
             <TextField fx:id="txtid" editable="false" GridPane.columnIndex="1" />
             <TextField fx:id="txtname" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtemail" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label fx:id="labelerror" textFill="#f80000" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextField fx:id="txtBaseSalary" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <children>
                   <Button fx:id="btsave" mnemonicParsing="false" onAction="#onBtSave" text="Save" />
@@ -44,8 +46,6 @@
             <Label text="Birth Date" GridPane.rowIndex="3" />
             <Label text="Base Salary" GridPane.rowIndex="4" />
             <Label text="Department" GridPane.rowIndex="5" />
-            <TextField fx:id="txtemail" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="txtBaseSalary" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <DatePicker fx:id="dpBirtDate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label fx:id="labelerroremail" textFill="RED" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Label fx:id="labelerrorBirthDate" textFill="#f50101" GridPane.columnIndex="2" GridPane.rowIndex="3" />
