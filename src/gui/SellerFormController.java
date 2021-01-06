@@ -1,6 +1,8 @@
 package gui;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.entities.Seller;
@@ -36,9 +39,27 @@ public class SellerFormController implements Initializable {
 
 	@FXML
 	private TextField txtname;
+	
+	@FXML
+	private TextField txtemail;
+	
+	@FXML
+	private DatePicker dpBirtDate;
+	
+	@FXML
+	private TextField txtBaseSalary;
 
 	@FXML
 	private Label labelerror;
+	
+	@FXML
+	private Label labelerroremail;
+	
+	@FXML
+	private Label labelerrorBirthDate;
+	
+	@FXML
+	private Label labelerrorBaseSalary;
 
 	@FXML
 	private Button btsave;
@@ -120,8 +141,11 @@ public class SellerFormController implements Initializable {
 	}
 
 	private void initialize() {
-		Contraints.setTextFieldDouble(txtid);
-		Contraints.setTextFieldMaxLength(txtname, 30);
+		Contraints.setTextFieldInteger(txtid);
+		Contraints.setTextFieldMaxLength(txtname, 50);
+		Contraints.setTextFieldDouble(txtBaseSalary);
+		Contraints.setTextFieldMaxLength(txtemail, 60);
+		Utils.formatDatePicker(dpBirtDate, "dd/MM/yyyy");
 	}
 
 	public void updateFormData() {
@@ -130,7 +154,11 @@ public class SellerFormController implements Initializable {
 		}
 		txtid.setText(String.valueOf(depart.getId()));
 		txtname.setText(depart.getName());
-
+		txtemail.setText(depart.getEmail());
+		txtBaseSalary.setText(String.format("%.2f", depart.getBaseSalary()));
+		if(depart.getBirthDate() != null) {
+			dpBirtDate.setValue(LocalDate.ofInstant(depart.getBirthDate().toInstant(), ZoneId.systemDefault()));
+		}
 	}
 	
 	private void setErrormsg(Map<String, String> error) {
